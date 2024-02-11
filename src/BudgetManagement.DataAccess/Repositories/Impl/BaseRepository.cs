@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using BudgetManagement.Core.Common;
 using BudgetManagement.Core.Exceptions;
 using BudgetManagement.DataAccess.Persistence;
+using BudgetManagement.Shared.Constants;
 
 namespace BudgetManagement.DataAccess.Repositories.Impl
 {
@@ -29,6 +30,11 @@ namespace BudgetManagement.DataAccess.Repositories.Impl
             return addedEntity;
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await DbSet.AnyAsync(predicate);
+        }
+
         public async Task<TEntity> DeleteAsync(TEntity entity)
         {
             var removedEntity = DbSet.Remove(entity).Entity;
@@ -39,16 +45,23 @@ namespace BudgetManagement.DataAccess.Repositories.Impl
 
         public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await DbSet.Where(predicate).ToListAsync();
+            if (predicate == null)
+            {
+                return await DbSet.ToListAsync();
+            }
+            else
+            {
+                return await DbSet.Where(predicate).ToListAsync();
+            }
         }
 
         public async Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> predicate)
         {
             var entity = await DbSet.Where(predicate).FirstOrDefaultAsync();
-            
+
             if (entity == null)
             {
-                throw new ResourceNotFoundException(typeof(TEntity));
+                throw new ResourceNotFoundException(Message.BudgetNotFound);
             }
 
             return await DbSet.Where(predicate).FirstOrDefaultAsync();

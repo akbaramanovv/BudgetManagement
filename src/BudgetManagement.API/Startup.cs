@@ -1,4 +1,4 @@
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +37,8 @@ namespace BudgetManagement.API
             services.AddRepositories();
 
             services.AddServices(_env);
+
+            //services.AddValidations();
 
             services.AddIdentity();
 

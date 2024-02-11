@@ -21,8 +21,9 @@ namespace BudgetManagement.DataAccess.Persistence
         }
 
         public DbSet<TodoItem> TodoItems { get; set; }
-
         public DbSet<TodoList> TodoLists { get; set; }
+        public DbSet<AnnualBudget> AnnualBudgets { get; set; }
+        public DbSet<EmployeeOutgoing> EmployeeOutgoings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

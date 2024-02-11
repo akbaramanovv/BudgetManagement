@@ -1,15 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using BudgetManagement.Application.Common.Email;
+﻿using BudgetManagement.Application.Common.Email;
 using BudgetManagement.Application.MappingProfiles;
 using BudgetManagement.Application.Services;
 using BudgetManagement.Application.Services.DevImpl;
@@ -21,6 +10,16 @@ using BudgetManagement.DataAccess.Repositories;
 using BudgetManagement.DataAccess.Repositories.Impl;
 using BudgetManagement.Shared.Services;
 using BudgetManagement.Shared.Services.Impl;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
 
@@ -36,6 +35,8 @@ namespace BudgetManagement.Common
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IClaimService, ClaimService>();
             services.AddScoped<ITemplateService, TemplateService>();
+            services.AddScoped<IAnnualBudgetService, AnnualBudgetService>();
+            services.AddTransient<IEmployeeOutgoingService, EmployeeOutgoingService>();
 
             if (env.IsDevelopment())
             {
@@ -52,6 +53,9 @@ namespace BudgetManagement.Common
         {
             services.AddScoped<ITodoItemRepository, TodoItemRepository>();
             services.AddScoped<ITodoListRepository, TodoListRepository>();
+           // services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IAnnualBudgetRepository, AnnualBudgetRepository>();
+            services.AddScoped<IEmployeeOutgoingRepository, EmployeeOutgoingRepository>();
         }
 
         public static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -107,6 +111,8 @@ namespace BudgetManagement.Common
         public static void RegisterAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(TodoListProfile).Assembly);
+            services.AddAutoMapper(typeof(AnnualBudgetProfile).Assembly);
+            services.AddAutoMapper(typeof(AnnualBudgetProfile).Assembly);
         }
 
         public static void AddIdentity(this IServiceCollection services)

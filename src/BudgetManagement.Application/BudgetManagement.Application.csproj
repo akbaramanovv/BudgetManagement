@@ -17,4 +17,8 @@
     <ProjectReference Include="..\BudgetManagement.DataAccess\BudgetManagement.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Validators\EmployeeOutgoing\" />
+  </ItemGroup>
+
 </Project>
